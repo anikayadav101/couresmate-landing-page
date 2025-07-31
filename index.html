@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseMate - Never Study Alone Again</title>
+    <meta name="description" content="AI-powered study companion that transforms your learning experience with personalized tutoring, smart scheduling, and progress tracking.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Countdown Bar -->
+    <div class="bg-gradient-to-r from-orange-400 to-red-500 text-white py-2 px-4 text-center text-sm font-medium">
+        <div class="max-w-7xl mx-auto flex items-center justify-center space-x-4">
+            <span>🔥 Limited Time Offer: Get 3 months FREE when you sign up today!</span>
+            <span class="font-bold">
+                Expires in: <span id="countdown-timer">23:59:45</span>
+            </span>
+            <button 
+                onclick="handleClaimOffer()"
+                class="btn-white btn-sm"
+                style="border-radius: 9999px"
+            >
+                Claim Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-black text-white px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 flex items-center justify-center">
+                        <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3L1 9L12 15L21 11.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+                        </svg>
+                    </div>
+                    <span class="text-brand text-xl font-bold">CourseMate</span>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <button onclick="scrollToSection('features')" class="hover:text-purple-400 transition-colors">Features</button>
+                    <button onclick="scrollToSection('how-it-works')" class="hover:text-purple-400 transition-colors">How it Works</button>
+                    <button onclick="scrollToSection('testimonials')" class="hover:text-purple-400 transition-colors">Reviews</button>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button 
+                    onclick="showModal('login')"
+                    class="hidden md:block btn-ghost"
+                >
+                    Log In
+                </button>
+                <button 
+                    onclick="showModal('signup')"
+                    class="btn-primary btn-sm"
+                >
+                    Start Free Trial
+                </button>
+                <button 
+                    class="md:hidden btn-ghost p-2"
+                    onclick="toggleMobileMenu()"
+                >
+                    ☰
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-4 pb-4 hidden">
+            <nav class="flex flex-col space-y-2">
+                <button onclick="scrollToSection('features')" class="text-left btn-ghost">Features</button>
+                <button onclick="scrollToSection('how-it-works')" class="text-left btn-ghost">How it Works</button>
+                <button onclick="scrollToSection('testimonials')" class="text-left btn-ghost">Reviews</button>
+                <button onclick="showModal('login')" class="text-left btn-ghost">Log In</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="scroll-section bg-gradient-to-br from-purple-50 to-pink-50 py-20 px-4">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="text-hero text-4xl md:text-6xl font-semibold text-gray-900 mb-6">
+                    Never Study<br />
+                    Alone Again
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    At CourseMate, our mission is to empower every student to 
+                    study smarter, not harder - through personalized AI tutors 
+                    powered by learning science and real-time progress tracking. 
+                    Join thousands of students already on their path to study success.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button 
+                        onclick="showModal('signup')"
+                        class="btn-primary btn-lg btn-icon text-ui"
+                    >
+                        Get Started
+                    </button>
+                    <button 
+                        onclick="scrollToSection('how-it-works')"
+                        class="btn-secondary btn-lg text-ui"
+                    >
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="relative">
+                <!-- Student Image -->
+                <div class="w-full h-96 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl overflow-hidden relative">
+                    <img 
+                        src="student-image.jpg" 
+                        alt="Student studying with laptop" 
+                        class="w-full h-full object-cover object-center"
+                        style="object-position: center center"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                    />
+                    <!-- Fallback if image doesn't load -->
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-100 to-pink-100 text-gray-500" style="display: none;">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">📚</div>
+                            <p>Student studying</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="scroll-section bg-gray-900 text-white py-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Everything you need to succeed</h2>
+                <p class="text-gray-300 text-lg">
+                    Your intelligent course assistant that transforms your learning experience with AI-powered study tools and academic resources.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Features Carousel Container -->
+        <div class="relative h-96 mb-8">
+            <!-- Navigation Arrows -->
+            <button 
+                onclick="changeFeature(-1)"
+                class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+            >
+                <span class="text-white text-xl">←</span>
+            </button>
+            
+            <button 
+                onclick="changeFeature(1)"
+                class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+            >
+                <span class="text-white text-xl">→</span>
+            </button>
+
+            <div class="features-carousel-container overflow-hidden">
+                <div id="features-wrapper" class="features-wrapper">
+                    <!-- Feature 1: Personalized Study Plans -->
+                    <div class="feature-card active">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">📊</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">Personalized Study Plans</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                Custom study schedules adapted to your learning style and course requirements.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-purple-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Smart Scheduling -->
+                    <div class="feature-card">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">📅</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">Smart Scheduling</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                AI-powered scheduling that optimizes your study time and maximizes retention.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-blue-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Progress Tracking -->
+                    <div class="feature-card">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">📈</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">Progress Tracking</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                Real-time insights into your learning progress and performance analytics.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-green-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4: AI Tutoring -->
+                    <div class="feature-card">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">🤖</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">AI Tutoring</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                24/7 AI-powered tutoring that adapts to your learning pace and style.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-orange-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5: Study Groups -->
+                    <div class="feature-card">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">👥</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">Study Groups</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                Connect with classmates and form virtual study groups for collaborative learning.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-pink-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feature 6: Smart Notes -->
+                    <div class="feature-card">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 h-80">
+                            <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center mb-4">
+                                <span class="text-2xl">📝</span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold mb-3 text-white">Smart Notes</h3>
+                            <p class="text-gray-300 text-sm mb-4">
+                                AI-enhanced note-taking with automatic summarization and key point extraction.
+                            </p>
+                            <button 
+                                onclick="scrollToSection('how-it-works')"
+                                class="btn-feature text-cyan-400"
+                            >
+                                LEARN MORE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicator Dots -->
+        <div class="flex justify-center space-x-2">
+            <button onclick="setFeature(0)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-white"></button>
+            <button onclick="setFeature(1)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-gray-600 hover:bg-gray-500"></button>
+            <button onclick="setFeature(2)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-gray-600 hover:bg-gray-500"></button>
+            <button onclick="setFeature(3)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-gray-600 hover:bg-gray-500"></button>
+            <button onclick="setFeature(4)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-gray-600 hover:bg-gray-500"></button>
+            <button onclick="setFeature(5)" class="feature-dot w-3 h-3 rounded-full transition-colors duration-300 bg-gray-600 hover:bg-gray-500"></button>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="scroll-section py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">How CourseMate Works</h2>
+                <p class="text-gray-600 text-lg">
+                    Our intelligent platform adapts to your unique learning style, creating a personalized study experience that fits your schedule and helps you achieve your academic goals.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            1
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Upload your course content and set up your profile</h3>
+                            <p class="text-gray-600">Add your syllabus, textbooks, and learning goals to get started.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            2
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">AI analyzes your learning style</h3>
+                            <p class="text-gray-600">Our AI studies your learning patterns and preferences to create a personalized approach.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            3
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Get your personalized study plan</h3>
+                            <p class="text-gray-600">Receive a customized schedule and study materials tailored to your needs.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            4
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Track your progress and improve</h3>
+                            <p class="text-gray-600">Monitor your performance and get insights to continuously improve your learning.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 h-96 relative overflow-hidden">
+                    <!-- Dashboard Mockup -->
+                    <div class="bg-white rounded-lg shadow-xl h-full p-4 relative">
+                        <div class="text-center mb-4">
+                            <div class="text-lg font-bold text-gray-800">CourseMate Dashboard</div>
+                            <div class="text-sm text-gray-500">Your personalized study interface</div>
+                        </div>
+                        
+                        <!-- Mock dashboard elements -->
+                        <div class="space-y-3">
+                            <div class="bg-purple-100 rounded-lg p-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium">Today's Study Session</span>
+                                    <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Active</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                    <div class="bg-purple-600 h-2 rounded-full w-3/4"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-blue-100 rounded-lg p-3">
+                                <div class="text-sm font-medium">AI Tutor Recommendations</div>
+                                <div class="text-xs text-gray-600 mt-1">Focus on Chapter 5: Calculus</div>
+                            </div>
+                            
+                            <div class="bg-green-100 rounded-lg p-3">
+                                <div class="text-sm font-medium">Progress This Week</div>
+                                <div class="text-xs text-gray-600 mt-1">8 hours completed • 92% accuracy</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating notification -->
+                        <div class="absolute top-4 right-4 bg-yellow-100 border border-yellow-300 rounded-lg p-2 shadow-lg">
+                            <div class="text-xs text-yellow-700">🎯 Study streak: 7 days!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="scroll-section bg-gray-900 text-white py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Real Students, Real Results</h2>
+                <p class="text-gray-300 text-lg">
+                    Discover how students like you are achieving their academic goals and improving their academic performance and overall well-being with CourseMate.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white text-gray-900 p-8 rounded-xl">
+                    <div class="flex text-yellow-400 mb-4">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "CourseMate has completely transformed how I approach studying. The AI tutor feels like having a personal mentor available 24/7, and my grades have improved significantly since I started using it."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mr-4 overflow-hidden">
+                            <span class="text-2xl">👩‍🎓</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Sarah R.</h4>
+                            <p class="text-gray-500 text-sm">Computer Science Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white text-gray-900 p-8 rounded-xl">
+                    <div class="flex text-yellow-400 mb-4">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "The personalized study plans are incredible. CourseMate understands exactly what I need to focus on and when. I've never felt more organized and confident about my studies."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mr-4 overflow-hidden">
+                            <span class="text-2xl">👨‍🎓</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Michael A.</h4>
+                            <p class="text-gray-500 text-sm">Pre-Med Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="stats" class="scroll-section bg-gradient-to-r from-purple-500 to-pink-500 text-white py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Trusted by Students Worldwide</h2>
+                <p class="text-purple-100 text-lg">
+                    Join thousands of students who have already improved their academic performance with CourseMate.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">10k+</div>
+                    <div class="text-purple-100">Active Students</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">93k+</div>
+                    <div class="text-purple-100">Study Sessions</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">240k+</div>
+                    <div class="text-purple-100">Questions Answered</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">98%</div>
+                    <div class="text-purple-100">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="scroll-section bg-black text-white py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Your new friend awaits you</h2>
+            <p class="text-gray-300 text-lg mb-8">
+                Join over 10,000 students who have discovered the joy of stress-free learning with our AI-powered study companion.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                    onclick="showModal('signup')"
+                    class="btn-white btn-lg btn-icon text-ui"
+                >
+                    Get Started for Free
+                </button>
+                <button 
+                    onclick="showModal('demo')"
+                    class="btn-primary btn-lg text-ui"
+                >
+                    Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-purple-600" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 3L1 9L12 15L21 11.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+                            </svg>
+                        </div>
+                        <span class="text-brand text-xl font-bold">CourseMate</span>
+                    </div>
+                    <p class="text-gray-600">
+                        Empowering students with AI-powered study tools for academic success.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Product</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><button onclick="scrollToSection('features')" class="hover:text-purple-600 transition-colors text-left">Features</button></li>
+                        <li><button onclick="showModal('signup')" class="hover:text-purple-600 transition-colors text-left">Pricing</button></li>
+                        <li><button onclick="alert('API documentation coming soon!')" class="hover:text-purple-600 transition-colors text-left">API</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><button onclick="alert('About page coming soon!')" class="hover:text-purple-600 transition-colors text-left">About</button></li>
+                        <li><button onclick="alert('Careers page coming soon!')" class="hover:text-purple-600 transition-colors text-left">Careers</button></li>
+                        <li><button onclick="alert('Contact: hello@coursemate.com')" class="hover:text-purple-600 transition-colors text-left">Contact</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><button onclick="alert('Help Center coming soon!')" class="hover:text-purple-600 transition-colors text-left">Help Center</button></li>
+                        <li><button onclick="alert('Community Discord coming soon!')" class="hover:text-purple-600 transition-colors text-left">Community</button></li>
+                        <li><button onclick="alert('All systems operational!')" class="hover:text-purple-600 transition-colors text-left">Status</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
+                <p>&copy; 2024 CourseMate. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-lg p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                <button 
+                    onclick="hideModal('login')"
+                    class="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                    ×
+                </button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Email
+                    </label>
+                    <input 
+                        type="email" 
+                        name="email"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+                        placeholder="your@email.com"
+                    />
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        name="password"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+                        placeholder="Enter your password"
+                    />
+                </div>
+                <button 
+                    type="submit"
+                    class="btn-primary w-full"
+                >
+                    Sign In
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <button 
+                    onclick="hideModal('login'); showModal('signup')"
+                    class="text-purple-600 hover:text-purple-700 text-sm"
+                >
+                    Don't have an account? Sign up
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-lg p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Start Your Free Trial</h2>
+                <button 
+                    onclick="hideModal('signup')"
+                    class="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                    ×
+                </button>
+            </div>
+            <form onsubmit="handleSignup(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Full Name
+                    </label>
+                    <input 
+                        type="text" 
+                        name="name"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+                        placeholder="Your full name"
+                    />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Email
+                    </label>
+                    <input 
+                        type="email" 
+                        name="email"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+                        placeholder="your@email.com"
+                    />
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        name="password"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+                        placeholder="Create a password"
+                    />
+                </div>
+                <button 
+                    type="submit"
+                    class="btn-primary w-full"
+                >
+                    Start Free Trial
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <button 
+                    onclick="hideModal('signup'); showModal('login')"
+                    class="text-purple-600 hover:text-purple-700 text-sm"
+                >
+                    Already have an account? Sign in
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div id="demo-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-lg p-8 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">CourseMate Demo</h2>
+                <button 
+                    onclick="hideModal('demo')"
+                    class="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                    ×
+                </button>
+            </div>
+            <div class="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center mb-6">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">▶️</div>
+                    <p class="text-gray-600">Demo video would play here</p>
+                    <p class="text-sm text-gray-500 mt-2">Replace with actual video embed</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-600 mb-4">
+                    See how CourseMate's AI tutor adapts to your learning style and helps you achieve your academic goals.
+                </p>
+                <div class="flex gap-4 justify-center">
+                    <button 
+                        onclick="hideModal('demo'); showModal('signup')"
+                        class="btn-primary"
+                    >
+                        Start Free Trial
+                    </button>
+                    <button 
+                        onclick="hideModal('demo')"
+                        class="btn-secondary"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
